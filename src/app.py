@@ -75,23 +75,29 @@ def serve_any_other_file(path):
 # create_access_token() function is used to actually generate the JWT.
 @app.route("/login", methods=['POST'])
 def login():
-    username = request.json.get("username", None)
+    identifier = request.json.get("identifier", None)
     password = request.json.get("password", None)
-    if username != "test" or password != "test":
+    user = User.query.filter((User.email == identifier) | (User.username == identifier)).first()
+    
+    if user is None:
+        return jsonify({"msg": "User not found"}), 401
+    
+    if user.password != password:
         return jsonify({"msg": "Bad username or password"}), 401
-
-    access_token = create_access_token(identity=username)
+    
+    access_token = create_access_token(identity=user.email) 
     return jsonify(access_token=access_token)
 
 #Create a user with signup
 @app.route('/signup', methods=['POST'])
 def signup():
+    username = request.json['username']
     email = request.json['email']
     password = request.json['password']
     
     # Verificar si se han proporcionado ambos campos
-    if not email or not password:
-        return jsonify(message="Email and password are required"), 400
+    if not email or not password or not username:
+        return jsonify(message="Username, email and password are required"), 400
      
     # Verificar si la contraseña tiene una longitud mínima
     if len(password) < 8:
@@ -102,7 +108,12 @@ def signup():
     if existing_user:
         return jsonify(message="Email already exists"), 400
     
-    new_user = User(email=email, password=password, is_active=True)
+    # Verificar si el username ya existe
+    existing_username = User.query.filter_by(username=username).first()
+    if existing_username:
+        return jsonify(message="Username already exists"), 400
+    
+    new_user = User(username=username, email=email, password=password, is_active=True)
     db.session.add(new_user)
     db.session.commit()
     return jsonify(message="User created"), 201
