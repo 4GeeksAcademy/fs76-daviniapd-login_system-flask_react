@@ -71,23 +71,6 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
-# Create a route to authenticate your users and return JWTs. The
-# create_access_token() function is used to actually generate the JWT.
-@app.route("/login", methods=['POST'])
-def login():
-    identifier = request.json.get("identifier", None)
-    password = request.json.get("password", None)
-    user = User.query.filter((User.email == identifier) | (User.username == identifier)).first()
-    
-    if user is None:
-        return jsonify({"msg": "User not found"}), 401
-    
-    if user.password != password:
-        return jsonify({"msg": "Bad username or password"}), 401
-    
-    access_token = create_access_token(identity=user.email) 
-    return jsonify(access_token=access_token)
-
 #Create a user with signup
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -118,6 +101,29 @@ def signup():
     db.session.commit()
     return jsonify(message="User created"), 201
 
+# Create a route to authenticate your users and return JWTs. The
+# create_access_token() function is used to actually generate the JWT.
+@app.route("/login", methods=['POST'])
+def login():
+    identifier = request.json.get("identifier", None)
+    password = request.json.get("password", None)
+    user = User.query.filter((User.email == identifier) | (User.username == identifier)).first()
+    
+    if user is None:
+        return jsonify({"msg": "User not found"}), 401
+    
+    if user.password != password:
+        return jsonify({"msg": "Bad username or password"}), 401
+    
+    access_token = create_access_token(identity=user.email) 
+    return jsonify(access_token=access_token)
+
+@app.route("/private", methods=["GET"])
+@jwt_required()
+def private():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user, message="You are logged in and have access to the private route!"), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
