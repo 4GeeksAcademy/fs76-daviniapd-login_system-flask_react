@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory, session
+from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from api.models import db, User
 from flask_swagger import swagger
@@ -14,6 +14,7 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 
 # from models import Person
@@ -22,6 +23,7 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "https://sturdy-space-memory-g45q69wpqwqqf97q4-3000.app.github.dev/"}})
 app.url_map.strict_slashes = False
 
 # database condiguration
@@ -36,16 +38,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
-# Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
-jwt = JWTManager(app)
-
-
 # add the admin
 setup_admin(app)
 
 # add the admin
 setup_commands(app)
+
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+jwt = JWTManager(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
@@ -71,65 +72,7 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
-#Create a user with signup
-@app.route('/signup', methods=['POST'])
-def signup():
-    username = request.json['username']
-    email = request.json['email']
-    password = request.json['password']
-    
-    # Verificar si se han proporcionado ambos campos
-    if not email or not password or not username:
-        return jsonify(message="Username, email and password are required"), 400
-     
-    # Verificar si la contraseña tiene una longitud mínima
-    if len(password) < 8:
-        return jsonify(message="Password must be at least 8 characters"), 400
-    
-    # Verificar si el correo electrónico ya existe
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        return jsonify(message="Email already exists"), 400
-    
-    # Verificar si el username ya existe
-    existing_username = User.query.filter_by(username=username).first()
-    if existing_username:
-        return jsonify(message="Username already exists"), 400
-    
-    new_user = User(username=username, email=email, password=password, is_active=True)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify(message="User created"), 201
 
-# Create a route to authenticate your users and return JWTs. The
-# create_access_token() function is used to actually generate the JWT.
-@app.route("/login", methods=['POST'])
-def login():
-    identifier = request.json.get("identifier", None)
-    password = request.json.get("password", None)
-    user = User.query.filter((User.email == identifier) | (User.username == identifier)).first()
-    
-    if user is None:
-        return jsonify({"msg": "User not found"}), 401
-    
-    if user.password != password:
-        return jsonify({"msg": "Bad username or password"}), 401
-    
-    access_token = create_access_token(identity=user.email) 
-    return jsonify(access_token=access_token)
-
-@app.route("/private", methods=["GET"])
-@jwt_required()
-def private():
-    # Access the identity of the current user with get_jwt_identity
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user, message="You are logged in and have access to the private route!"), 200
-
-@app.route("/logout", methods=['POST'])
-@jwt_required()
-def logout():
-    session.pop('jwt_token', None) 
-    return jsonify({"msg": "Logged out successfully"}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
