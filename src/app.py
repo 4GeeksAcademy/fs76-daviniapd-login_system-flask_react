@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory, session
 from flask_migrate import Migrate
 from api.models import db, User
 from flask_swagger import swagger
@@ -124,6 +124,12 @@ def private():
     # Access the identity of the current user with get_jwt_identity
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user, message="You are logged in and have access to the private route!"), 200
+
+@app.route("/logout", methods=['POST'])
+@jwt_required()
+def logout():
+    session.pop('jwt_token', None) 
+    return jsonify({"msg": "Logged out successfully"}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
