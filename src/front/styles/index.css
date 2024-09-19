@@ -122,3 +122,21 @@
     background-color: rgb(0, 0, 0);
     color: white;
 }
+
+#home-tab, #profile-tab {
+    color: gray;
+
+}
+
+#home-tab.active, #profile-tab.active {
+    color: #ffd903;
+}
+
+#gallery img {
+    transition: transform 0.5s; 
+}
+
+#gallery img:hover {
+    transform: scale(1.02); 
+    cursor: pointer;
+  }
