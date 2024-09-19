@@ -1,10 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
 export const Private = () => {
 	const { store, actions } = useContext(Context);
+
+	// Verifica si el usuario está autenticado
+	const isAuthenticated = store.auth; 
+
+	if (!isAuthenticated) {
+		// Redirige a la página de inicio si no está autenticado
+		return <Navigate to="/" />;
+	}
+
 
 	return (
 		<div className="container">

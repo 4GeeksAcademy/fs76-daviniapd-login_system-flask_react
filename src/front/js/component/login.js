@@ -4,13 +4,24 @@ import { Context } from "../store/appContext";
 import { Navigate } from "react-router-dom";
 
 export const Login = () => {
+    const { store, actions } = useContext(Context);
     const [identifier, setIdentifier] = useState('')
     const [password, setPassword] = useState('')
-    const { store, actions } = useContext(Context);
+    const [message, setMessage] = useState("");
+    const [alert, setAlert] = useState(null);
 
     function sendData(e) {
-        e.preventDefault()
-        actions.login(identifier, password)
+        e.preventDefault();
+        if (!identifier || !password) {
+            setMessage("Please, complete all fields.");
+            return;
+        }
+        if (password.length < 8) {
+            setMessage("The password must be at least 8 characters.");
+            return;
+        }
+
+        actions.login(identifier, password);
     }
 
     return (
@@ -19,6 +30,9 @@ export const Login = () => {
                 <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={sendData}>
                     <div className="card" id="cardLogin">
                         <a className="login">Login</a>
+                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2" />{message}                        
+                        <i type="button" className="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i>
+                        </div>}
                         <div className="inputBox1">
                             <input value={identifier} onChange={(e) => setIdentifier(e.target.value)} type="text" required="required" />
                             <span className="user">Username or Email</span>

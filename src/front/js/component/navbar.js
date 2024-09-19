@@ -9,7 +9,7 @@ export const Navbar = () => {
 
 	function handleLogout(){
 		actions.logout()
-		navigate('/login')
+		navigate('/')
 	}
 
 	return (

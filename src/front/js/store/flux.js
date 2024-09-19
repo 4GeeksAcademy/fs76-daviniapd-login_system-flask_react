@@ -1,7 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
 			demo: [
 				{
 					title: "FIRST",
@@ -23,20 +22,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 	getActions().changeColor(0, "green");
 			// },
 
-			getMessage: async () => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
+			// getMessage: async () => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+			// 		const data = await resp.json()
+			// 		setStore({ message: data.message })
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
 
 			signup: (email, username, password) => {
+				console.log("Signup desde flux")
 				const requestOptions = {
 					method: 'POST',
 					headers: {
@@ -54,9 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							const store = getStore();
 							const newUser = { username, email };
 							setStore({
-								message: data.message,
 								users: [...store.users, newUser],
-								auth: true
 							});
 						}
 						return response.json()
@@ -64,6 +62,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(data => {
 						console.log(data)
 						localStorage.setItem("token", data.access_token);
+						setStore({ auth: true, message: null });
 					})
 					.catch(error => {
 						console.error('Error:', error);
@@ -92,6 +91,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(data => {
 						console.log(data)
 						localStorage.setItem("token", data.access_token);
+						console.log("User created succesfully","token",data.access_token)
 					})
 					.catch(error => {
 						console.error('Error:', error);

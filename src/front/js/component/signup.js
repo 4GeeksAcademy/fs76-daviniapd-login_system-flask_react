@@ -9,6 +9,7 @@ export const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [alert, setAlert] = useState(null);
 
     function handleSignup(e) {
         e.preventDefault();
@@ -36,7 +37,8 @@ export const Signup = () => {
                 <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={handleSignup}>
                     <div className="card" id="cardSignup">
                         <a className="singup">Sign Up</a>
-                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2"/>{message}</div>}
+                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2"/>{message}                        
+                        <i type="button" className="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i></div>}
                         <div className="inputBox1">
                             <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
                             <span className="user">Email</span>
