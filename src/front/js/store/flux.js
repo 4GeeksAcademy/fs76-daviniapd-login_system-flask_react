@@ -67,49 +67,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error);
-					
+
 				}
 			},
 
 			login: (identifier, password) => {
 				console.log("Login desde flux")
 				const requestOptions = {
-				  method: 'POST',
-				  headers: {
-					'Content-Type': 'application/json;charset=UTF-8'
-				  },
-				  body: JSON.stringify({
-					"identifier": identifier,
-					"password": password
-				  })
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=UTF-8'
+					},
+					body: JSON.stringify({
+						"identifier": identifier,
+						"password": password
+					})
 				};
 				fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
-				  .then(response => response.json())
+					.then(response => {
+						if (response.status === 200){
+							setStore({ auth: true })
+					}
+						return response.json()
+				})
 				  .then(data => {
-					console.log(data)
-					localStorage.setItem("token", data.access_token);
-				  })
-				  .catch(error => {
+						console.log(data)
+						localStorage.setItem("token", data.access_token);
+					})
+				.catch(error => {
 					console.error('Error:', error);
-				  });  
-			  },
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
 				});
+		},
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+		changeColor: (index, color) => {
+			//get the store
+			const store = getStore();
+
+			//we have to loop the entire demo array to look for the respective index
+			//and change its color
+			const demo = store.demo.map((elm, i) => {
+				if (i === index) elm.background = color;
+				return elm;
+			});
+
+			//reset the global store
+			setStore({ demo: demo });
 		}
-	};
+	}
+};
 };
 
 export default getState;
