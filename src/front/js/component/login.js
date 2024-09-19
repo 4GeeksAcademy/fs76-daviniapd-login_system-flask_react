@@ -16,7 +16,7 @@ export const Login = () => {
     return (
         <>
             {store.auth === true ? <Navigate to="/private" /> :
-                <form className="container h-100 d-flex justify-content-center align-items-center mb-5" onSubmit={sendData}>
+                <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={sendData}>
                     <div className="card" id="cardLogin">
                         <a className="login">Login</a>
                         <div className="inputBox1">

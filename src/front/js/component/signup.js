@@ -20,7 +20,7 @@ export const Signup = () => {
     };
 
     return (
-        <div className="container h-100 d-flex justify-content-center align-items-center mb-5">
+        <div className="container h-100 d-flex justify-content-center align-items-center my-5">
             <div className="card" id="cardSignup">
                 <a className="singup">Sign Up</a>
                 {message && <div className="alert">{message}</div>} 

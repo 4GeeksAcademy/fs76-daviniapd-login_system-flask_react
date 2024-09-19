@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			auth: false
+			auth: false,
+			users: [],
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -38,7 +39,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/signup", {
 						method: 'POST',
-						mode: "no-cors",
 						headers: {
 							'Content-Type': 'application/json'
 						},
