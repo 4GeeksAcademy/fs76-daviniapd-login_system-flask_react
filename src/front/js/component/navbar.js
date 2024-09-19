@@ -16,18 +16,18 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
 				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
+					<span className="navbar-brand mb-0 h1">Home</span>
 				</Link>
 				<div className="ml-auto">
-					<Link to="/login">
-						<button className="btn btn-primary">Login</button>
+				<Link to="/signup"> 
+						<button className="btn btn-primary me-3">Signup</button>
 					</Link>
+					<Link to="/login"> 
+						<button className="btn btn-primary me-3">Login</button>
+					</Link>
+					{store.auth === true ? <button className="btn btn-primary" onClick={()=>handleLogout()}>Logout</button> : ''} 
 				</div>
-				<div className="ml-auto">
 
-						{store.auth === true ? <button className="btn btn-primary" onClick={()=>handleLogout()}>Logout</button> : ''} 
-
-				</div>
 			</div>
 		</nav>
 	);
