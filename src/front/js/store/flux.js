@@ -99,6 +99,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 		},
 
+		logout: () => {
+			console.log("Logout desde flux")
+			localStorage.removeItem("token");
+			setStore({auth: false})
+		},
+
 		changeColor: (index, color) => {
 			//get the store
 			const store = getStore();
