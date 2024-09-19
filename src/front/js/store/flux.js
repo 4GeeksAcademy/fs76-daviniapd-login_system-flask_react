@@ -35,40 +35,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			signup: async (username, email, password) => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/signup", {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							username: username,
-							email: email,
-							password: password
-						})
+
+			signup: (email, username, password) => {
+				const requestOptions = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=UTF-8'
+					},
+					body: JSON.stringify({
+						"email": email,
+						"username": username,
+						"password": password
+					})
+				};
+				fetch(process.env.BACKEND_URL + "/api/signup", requestOptions)
+					.then(response => {
+						if (response.status === 200) {
+							const store = getStore();
+							const newUser = { username, email };
+							setStore({
+								message: data.message,
+								users: [...store.users, newUser],
+								auth: true
+							});
+						}
+						return response.json()
+					})
+					.then(data => {
+						console.log(data)
+						localStorage.setItem("token", data.access_token);
+					})
+					.catch(error => {
+						console.error('Error:', error);
 					});
-					console.log(resp)
-					const data = await resp.json();
-
-					// Verifica si la creación del usuario fue exitosa
-					if (data.success) {
-						// Agrega el nuevo usuario al store
-						const store = getStore();
-						const newUser = { username, email }; // Puedes agregar más campos si es necesario
-						setStore({
-							message: data.message,
-							users: [...store.users, newUser] // Agrega el nuevo usuario al array
-						});
-					} else {
-						setStore({ message: data.message });
-					}
-
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error);
-
-				}
 			},
 
 			login: (identifier, password) => {
@@ -85,42 +84,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
 					.then(response => {
-						if (response.status === 200){
+						if (response.status === 200) {
 							setStore({ auth: true })
-					}
+						}
 						return response.json()
-				})
-				  .then(data => {
+					})
+					.then(data => {
 						console.log(data)
 						localStorage.setItem("token", data.access_token);
 					})
-				.catch(error => {
-					console.error('Error:', error);
+					.catch(error => {
+						console.error('Error:', error);
+					});
+			},
+
+			logout: () => {
+				console.log("Logout desde flux")
+				localStorage.removeItem("token");
+				setStore({ auth: false })
+			},
+
+			checkUserExists: async (username, email) => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/checkUser", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=UTF-8'
+					},
+					body: JSON.stringify({ username, email })
 				});
-		},
+				const data = await response.json();
+				return data.exists; // Suponiendo que la respuesta tiene un campo 'exists'
+			}
 
-		logout: () => {
-			console.log("Logout desde flux")
-			localStorage.removeItem("token");
-			setStore({auth: false})
-		},
+			// changeColor: (index, color) => {
+			// 	//get the store
+			// 	const store = getStore();
 
-		// changeColor: (index, color) => {
-		// 	//get the store
-		// 	const store = getStore();
+			// 	//we have to loop the entire demo array to look for the respective index
+			// 	//and change its color
+			// 	const demo = store.demo.map((elm, i) => {
+			// 		if (i === index) elm.background = color;
+			// 		return elm;
+			// 	});
 
-		// 	//we have to loop the entire demo array to look for the respective index
-		// 	//and change its color
-		// 	const demo = store.demo.map((elm, i) => {
-		// 		if (i === index) elm.background = color;
-		// 		return elm;
-		// 	});
-
-		// 	//reset the global store
-		// 	setStore({ demo: demo });
-		// }
-	}
-};
+			// 	//reset the global store
+			// 	setStore({ demo: demo });
+			// }
+		}
+	};
 };
 
 export default getState;

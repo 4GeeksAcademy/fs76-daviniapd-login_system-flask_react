@@ -1,46 +1,61 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { Navigate } from "react-router-dom";
 
 export const Signup = () => {
     const { store, actions } = useContext(Context);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState(""); 
+    const [message, setMessage] = useState("");
 
-    const handleSignup = async () => {
-        const result = await actions.signup(username, email, password);
+    function handleSignup(e) {
+        e.preventDefault();
         
-        // if (result.ok) {
-        //     setMessage("User created successfully!"); 
-        // } else {
-        //     setMessage("Error creating user: " + result.error); 
-        // }
-    };
+        if (!email || !username || !password) {
+            setMessage("Please, complete all fields.");
+            return;
+        }
+        if (password.length < 8) {
+            setMessage("The password must be at least 8 characters.");
+            return;
+        }
+        actions.checkUserExists(username, email).then(userExists => {
+            if (userExists) {
+                setMessage("The username or email address is already registered.");
+                return;
+            }
+            actions.signup(email, username, password);
+        });
+    }
 
     return (
-        <div className="container h-100 d-flex justify-content-center align-items-center my-5">
-            <div className="card" id="cardSignup">
-                <a className="singup">Sign Up</a>
-                {message && <div className="alert">{message}</div>} 
-                <div className="inputBox1">
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <span className="user">Email</span>
-                </div>
+        <>
+            {store.auth === true ? <Navigate to="/private" /> :
+                <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={handleSignup}>
+                    <div className="card" id="cardSignup">
+                        <a className="singup">Sign Up</a>
+                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2"/>{message}</div>}
+                        <div className="inputBox1">
+                            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <span className="user">Email</span>
+                        </div>
 
-                <div className="inputBox">
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                    <span>Username</span>
-                </div>
+                        <div className="inputBox">
+                            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                            <span>Username</span>
+                        </div>
 
-                <div className="inputBox">
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    <span>Password</span>
-                </div>
+                        <div className="inputBox">
+                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                            <span>Password</span>
+                        </div>
 
-                <button className="enter" onClick={handleSignup}>Enter</button>
-            </div>
-        </div>
+                        <button type="submit" className="enter" onClick={handleSignup}>Enter</button>
+                    </div>
+                </form>
+            }
+        </>
     );
 };

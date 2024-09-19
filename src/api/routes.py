@@ -53,7 +53,9 @@ def signup():
     new_user = User(username=username, email=email, password=password, is_active=True)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify(message="User created"), 201
+    access_token = create_access_token(identity=email)
+    return jsonify({ "message": "User created","access_token": access_token}), 201
+
 
 # Create a route to authenticate your users and return JWTs. The
 # create_access_token() function is used to actually generate the JWT.
@@ -84,3 +86,26 @@ def private():
 def logout():
     session.pop('jwt_token', None) 
     return jsonify({"msg": "Logged out successfully"}), 200
+
+@api.route('/checkUser', methods=['POST'])
+def check_user_exists():
+    username = request.json.get('username')
+    email = request.json.get('email')
+
+    # Verificar si se han proporcionado al menos uno de los campos
+    if not username and not email:
+        return jsonify(message="Username or email is required"), 400
+
+    # Verificar si el correo electrónico ya existe
+    if email:
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return jsonify(exists=True, message="Email already exists"), 200
+
+    # Verificar si el username ya existe
+    if username:
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_username:
+            return jsonify(exists=True, message="Username already exists"), 200
+
+    return jsonify(exists=False), 200
