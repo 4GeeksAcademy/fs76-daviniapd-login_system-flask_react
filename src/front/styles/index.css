@@ -140,3 +140,15 @@
     transform: scale(1.02); 
     cursor: pointer;
   }
+
+.navbar {
+    background-color: rgb(87, 87, 87);
+}
+
+.codegram-logo {
+    font-family: 'Pacifico', cursive;
+    font-size: 40px; 
+    background: linear-gradient(to right, #FFB3BA, #FFDFBA, #BAFFC9, #BAE1FF, #D5C6E0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

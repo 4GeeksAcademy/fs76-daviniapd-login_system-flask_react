@@ -36,7 +36,7 @@ export const Signup = () => {
             {store.auth === true ? <Navigate to="/private" /> :
                 <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={handleSignup}>
                     <div className="card" id="cardSignup">
-                        <a className="singup">Sign Up</a>
+                        <h1 className="singup">Sign Up</h1>
                         {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2"/>{message}                        
                         <i type="button" className="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i></div>}
                         <div className="inputBox1">

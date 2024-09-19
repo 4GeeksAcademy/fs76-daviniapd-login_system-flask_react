@@ -13,19 +13,19 @@ export const Navbar = () => {
 	}
 
 	return (
-		<nav className="navbar navbar-light bg-light">
+		<nav className="navbar navbar-light">
 			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">Home</span>
+				<Link to="/" style={{textDecoration: "none"}} >
+					<h1 className="codegram-logo py-3 m-0">codegram</h1>
 				</Link>
 				<div className="ml-auto">
-				<Link to="/signup"> 
+				{/* <Link to="/signup"> 
 						<button className="btn btn-primary me-3">Signup</button>
 					</Link>
 					<Link to="/login"> 
 						<button className="btn btn-primary me-3">Login</button>
-					</Link>
-					{store.auth === true ? <button className="btn btn-primary" onClick={()=>handleLogout()}>Logout</button> : ''} 
+					</Link> */}
+					{store.auth === true ? <button className="btn btn-warning" onClick={()=>handleLogout()}>Logout</button> : ''} 
 				</div>
 
 			</div>
