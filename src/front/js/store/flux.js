@@ -17,23 +17,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			users: [],
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			// exampleFunction: () => {
-			// 	getActions().changeColor(0, "green");
-			// },
-
-			// getMessage: async () => {
-			// 	try {
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-			// 		const data = await resp.json()
-			// 		setStore({ message: data.message })
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	} catch (error) {
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
 
 			signup: (email, username, password) => {
 				console.log("Signup desde flux")
@@ -103,32 +86,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ auth: false })
 			},
 
-			checkUserExists: async (username, email) => {
-				const response = await fetch(process.env.BACKEND_URL + "/api/checkUser", {
+			checkUserExists: (username, email) => {
+				return fetch(process.env.BACKEND_URL + "/api/checkUser", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json;charset=UTF-8'
 					},
 					body: JSON.stringify({ username, email })
-				});
-				const data = await response.json();
-				return data.exists; // Suponiendo que la respuesta tiene un campo 'exists'
+				})
+				.then(response => response.json())
+				.then(data => data.exists);
 			}
-
-			// changeColor: (index, color) => {
-			// 	//get the store
-			// 	const store = getStore();
-
-			// 	//we have to loop the entire demo array to look for the respective index
-			// 	//and change its color
-			// 	const demo = store.demo.map((elm, i) => {
-			// 		if (i === index) elm.background = color;
-			// 		return elm;
-			// 	});
-
-			// 	//reset the global store
-			// 	setStore({ demo: demo });
-			// }
 		}
 	};
 };
