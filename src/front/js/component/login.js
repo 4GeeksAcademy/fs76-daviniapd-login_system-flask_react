@@ -21,7 +21,13 @@ export const Login = () => {
             return;
         }
 
+        // Llamar a la función de login
         actions.login(identifier, password);
+
+        // Aquí puedes verificar el estado de autenticación
+        if (!store.auth) {
+            setMessage("User or password is wrong");
+        }
     }
 
     return (
@@ -30,8 +36,8 @@ export const Login = () => {
                 <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={sendData}>
                     <div className="card" id="cardLogin">
                         <h1 className="login">Login</h1>
-                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2" />{message}                        
-                        <i type="button" className="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i>
+                        {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2" />{message}
+                            <i type="button" className="btn-close float-end ms-1" style={{fontSize: "10px"}} data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i>
                         </div>}
                         <div className="inputBox1">
                             <input value={identifier} onChange={(e) => setIdentifier(e.target.value)} type="text" required="required" />

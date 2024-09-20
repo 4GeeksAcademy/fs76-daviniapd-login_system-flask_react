@@ -21,7 +21,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 350px;
-    width: 300px;
+    width: 350px;
     flex-direction: column;
     gap: 35px;
     border-radius: 15px;
@@ -150,14 +150,11 @@ body {
     background-color: rgb(0 0 0 / 77%);
 }
 
-
-
 .codegram-logo {
     font-family: 'Pacifico', cursive;
     font-size: 35px; 
     color: #ebebeb;
     text-shadow: 2px 0 #000000ab, -2px 0 #000000ab, 0 2px #ffc107b8, 0 -2px #000000ab, 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #f9fafb, -1px 1px #fff;
-
 }
 
 #iconReverse{  

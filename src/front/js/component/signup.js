@@ -38,7 +38,7 @@ export const Signup = () => {
                     <div className="card" id="cardSignup">
                         <h1 className="singup">Sign Up</h1>
                         {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2"/>{message}                        
-                        <i type="button" className="btn-close float-end" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i></div>}
+                        <i type="button" className="btn-close float-end ms-1" style={{fontSize: "10px"}}  data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i></div>}
                         <div className="inputBox1">
                             <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
                             <span className="user">Email</span>

@@ -70,28 +70,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: (identifier, password) => {
-				console.log("Login desde flux")
+				console.log("Login desde flux");
 				const requestOptions = {
 					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json;charset=UTF-8'
-					},
-					body: JSON.stringify({
-						"identifier": identifier,
-						"password": password
-					})
+					headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+					body: JSON.stringify({ "identifier": identifier, "password": password })
 				};
 				fetch(process.env.BACKEND_URL + "/api/login", requestOptions)
 					.then(response => {
 						if (response.status === 200) {
-							setStore({ auth: true })
+							setStore({ auth: true });
+							return response.json();
+						} else {
+								console.log("User or password is wrong")
+							
 						}
-						return response.json()
 					})
 					.then(data => {
-						console.log(data)
-						localStorage.setItem("token", data.access_token);
-						console.log("User created succesfully","token",data.access_token)
+						if (data.access_token) {
+							localStorage.setItem("token", data.access_token);
+							console.log("User created successfully", "token", data.access_token);
+						}
 					})
 					.catch(error => {
 						console.error('Error:', error);
