@@ -21,15 +21,13 @@ export const Login = () => {
             return;
         }
 
-        // Llamar a la función de login
         actions.login(identifier, password);
-
-        // Aquí puedes verificar el estado de autenticación
-        if (!store.auth) {
-            setMessage("User or password is wrong");
-        }
+        setTimeout(() => {
+            if (!store.auth) {
+                setMessage("User or password is wrong");
+            }
+        }, 2000); 
     }
-
     return (
         <>
             {store.auth === true ? <Navigate to="/private" /> :
