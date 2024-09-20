@@ -11,10 +11,16 @@ export const ProfileTab = ({ post }) => {
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
-        console.log(comment);
+        console.log((`Comment added: ${comment}`));
         setComment(""); 
         setShowModal(false); 
         setIsComment(false);
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && comment.trim() !== '') { 
+            handleCommentSubmit(e); 
+        }
     };
 
     return (
@@ -76,14 +82,15 @@ export const ProfileTab = ({ post }) => {
                             <form onSubmit={handleCommentSubmit}>
                                 <div className="form-group">
                                     <textarea
-                                        className="form-control"
+                                        className="form-control custom-modal-body"
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
+                                        onKeyDown={handleKeyPress}
                                         placeholder="Write your comment here..."
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-warning mt-2">Send</button>
+                                <button type="submit" className="btn btn-warning mt-2 float-end">Send</button>
                             </form>
                         </div>
                     </div>
