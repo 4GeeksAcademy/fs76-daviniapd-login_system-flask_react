@@ -1,11 +1,21 @@
 import React, { useState, useContext } from "react";
-
 import { Context } from "../store/appContext";
 
 export const ProfileTab = ({ post }) => {
     const { store, actions } = useContext(Context);
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [isComment, setIsComment] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [comment, setComment] = useState(""); 
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        console.log(comment);
+        setComment(""); 
+        setShowModal(false); 
+        setIsComment(false);
+    };
 
     return (
         <>
@@ -20,7 +30,7 @@ export const ProfileTab = ({ post }) => {
                                 <h3>{post.title}</h3>
                             </div>
                             <div className="options ms-auto p-2 bd-highlight my-auto me-3 fs-4">
-                                <i className="fa-solid fa-ellipsis-vertical"></i>
+                                <i className="fa-solid fa-ellipsis-vertical" style={{ cursor: "pointer" }}></i>
                             </div>
                         </div>
                         <div className="imagen">
@@ -33,16 +43,48 @@ export const ProfileTab = ({ post }) => {
                                     style={{ cursor: "pointer", marginRight: "10px" }}
                                     onClick={() => setIsLiked(!isLiked)}
                                 />
-                                <i className="fa-regular fa-comment me-2" style={{ cursor: "pointer" }}></i>
+                                <i
+                                    className={`${isComment ? 'fa-solid fa-comment text-warning' : 'fa-regular fa-comment'}`}
+                                    style={{ cursor: "pointer", marginRight: "10px" }}
+                                    onClick={() => { setIsComment(!isComment); setShowModal(true) }}
+                                />
                                 <i className="fa-regular fa-paper-plane me-2" style={{ cursor: "pointer" }}></i>
                                 <i
-                                    className={`${isSaved ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'}`}
+                                    className={`${isSaved ? 'fa-solid fa-bookmark text-warning' : 'fa-regular fa-bookmark'}`}
                                     style={{ cursor: "pointer", marginLeft: "auto" }}
                                     onClick={() => setIsSaved(!isSaved)}
                                 />
                             </div>
                             <p className="likes m-0">Liked by <b>{post.likedBy.join(', ')}</b></p>
                             <p>{post.content} <span className="text-primary">{post.hashtag}</span> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`modal ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none' }} tabIndex="-1" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Add comment</h5>
+                            <button type="button" className="btn-close btn-warning" onClick={() => {
+                                setShowModal(false);
+                                setIsComment(false); 
+                            }} aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleCommentSubmit}>
+                                <div className="form-group">
+                                    <textarea
+                                        className="form-control"
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                        placeholder="Write your comment here..."
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="btn btn-warning mt-2">Send</button>
+                            </form>
                         </div>
                     </div>
                 </div>
