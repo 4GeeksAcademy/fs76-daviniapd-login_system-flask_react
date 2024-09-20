@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ProfileTab } from "./profileTab";
 import { HomeTab } from "./homeTab";
+import { Navigate } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
