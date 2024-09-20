@@ -1,6 +1,9 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+body {
+    background-color: rgb(239 239 239 / 77%);
+}
 .singup,
 .login {
     color: #000;
@@ -142,13 +145,19 @@
   }
 
 .navbar {
-    background-color: rgb(87, 87, 87);
+    background-color: rgb(0 0 0 / 77%);
 }
+
+
 
 .codegram-logo {
     font-family: 'Pacifico', cursive;
-    font-size: 40px; 
-    background: linear-gradient(to right, #FFB3BA, #FFDFBA, #BAFFC9, #BAE1FF, #D5C6E0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 35px; 
+    color: #ebebeb;
+    text-shadow: 2px 0 #000000ab, -2px 0 #000000ab, 0 2px #ffc107b8, 0 -2px #000000ab, 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #f9fafb, -1px 1px #fff;
+
+}
+
+#iconReverse{  
+    transform: scaleX(-1); 
 }

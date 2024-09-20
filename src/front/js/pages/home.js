@@ -11,10 +11,10 @@ export const Home = () => {
 		<div className="full-screen-bg" id="home">
 
 		<div className="d-flex justify-content-center align-items-center h-50 flex-column">
-		<h1 className="text-center" id="titleHome">WELCOME DEAR MUGGLE</h1>
+		<h1 className="text-center mx-4" id="titleHome">WELCOME DEAR MUGGLE</h1>
 			<div className="mt-4">
 			  <Link to="/signup">
-				<span className="btn btn-lg me-4" id="button-signup" role="button">
+				<span className="btn btn-lg mx-4" id="button-signup" role="button">
 				  signup
 				</span>
 			  </Link>

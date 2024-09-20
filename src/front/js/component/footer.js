@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Footer = () => (
-	<footer className="footer mt-auto py-3 text-center">
+	<footer className="footer mt-auto py-4 text-center fixed-bottom">
       <p className="my-auto">
         Made by{" "}
         <a href="https://github.com/daviniapd" className="link-secondary">daviniapd</a> <i className="fa-solid fa-otter text-secondary" /> {" "}

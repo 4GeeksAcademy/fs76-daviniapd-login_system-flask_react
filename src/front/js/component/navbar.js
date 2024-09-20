@@ -14,21 +14,22 @@ export const Navbar = () => {
 
 	return (
 		<nav className="navbar navbar-light">
-			<div className="container">
+			<div className="container" >
 				<Link to="/" style={{textDecoration: "none"}} >
-					<h1 className="codegram-logo py-3 m-0">codegram</h1>
+					<h1 className="codegram-logo py-3 m-0"><i className="fa-solid fa-share-nodes me-1 fs-4"></i>codegram<i className="fa-solid fa-share-nodes ms-1 fs-4" id="iconReverse"></i></h1>
 				</Link>
 				<div className="ml-auto">
-				{/* <Link to="/signup"> 
-						<button className="btn btn-primary me-3">Signup</button>
-					</Link>
-					<Link to="/login"> 
-						<button className="btn btn-primary me-3">Login</button>
-					</Link> */}
-					{store.auth === true ? <button className="btn btn-warning" onClick={()=>handleLogout()}>Logout</button> : ''} 
+					{store.auth === true ? <button className="enter btn btn-warning my-auto text-light" onClick={()=>handleLogout()}>Logout</button> : ''} 
 				</div>
 
 			</div>
 		</nav>
 	);
 };
+
+				{/* <Link to="/signup"> 
+						<button className="btn btn-primary me-3">Signup</button>
+					</Link>
+					<Link to="/login"> 
+						<button className="btn btn-primary me-3">Login</button>
+					</Link> */}
