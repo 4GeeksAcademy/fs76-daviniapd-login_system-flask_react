@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Navigate } from "react-router-dom";
@@ -9,6 +9,7 @@ export const Login = () => {
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState("");
     const [alert, setAlert] = useState(null);
+    const formRef = useRef(null);
 
     function sendData(e) {
         e.preventDefault();
@@ -28,10 +29,17 @@ export const Login = () => {
             }
         }, 2000); 
     }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendData(e); 
+        }
+    };
+
     return (
         <>
             {store.auth === true ? <Navigate to="/private" /> :
-                <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={sendData}>
+                <form className="container h-100 d-flex justify-content-center align-items-center my-5" onSubmit={sendData} ref={formRef} onKeyDown={handleKeyDown}>
                     <div className="card" id="cardLogin">
                         <h1 className="login">Login</h1>
                         {message && <div className="alert alert-warning d-flex align-items-center mx-2"><i className="fa-solid fa-triangle-exclamation me-2" />{message}

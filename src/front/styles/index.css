@@ -182,3 +182,7 @@ body {
     border-color: rgba(255, 193, 7, 0.5); /* Borde amarillo */
 }
 
+.dropdown-item:hover {
+
+    background-color: #feda7e;
+}

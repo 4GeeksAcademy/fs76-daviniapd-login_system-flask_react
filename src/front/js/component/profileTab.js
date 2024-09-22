@@ -7,21 +7,31 @@ export const ProfileTab = ({ post }) => {
     const [isSaved, setIsSaved] = useState(false);
     const [isComment, setIsComment] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [comment, setComment] = useState(""); 
+    const [comment, setComment] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
         console.log((`Comment added: ${comment}`));
-        setComment(""); 
-        setShowModal(false); 
+        setComment("");
+        setShowModal(false);
         setIsComment(false);
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && comment.trim() !== '') { 
-            handleCommentSubmit(e); 
+        if (e.key === 'Enter' && comment.trim() !== '') {
+            handleCommentSubmit(e);
         }
     };
+
+    const handleLike = () => {
+        setIsLiked(!isLiked);
+    };
+
+      const handleComment = () => {
+    setIsComment(true);
+    setShowModal(true);
+  };
 
     return (
         <>
@@ -35,8 +45,29 @@ export const ProfileTab = ({ post }) => {
                             <div className="title p-2 py-0 mb-2 my-auto bd-highlight">
                                 <h3>{post.title}</h3>
                             </div>
-                            <div className="options ms-auto p-2 bd-highlight my-auto me-3 fs-4">
-                                <i className="fa-solid fa-ellipsis-vertical" style={{ cursor: "pointer" }}></i>
+                            <div className="dropdown options ms-auto p-2 bd-highlight my-auto me-3 fs-4">
+                                <button
+                                    type="button"
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <a className="dropdown-item" href="#" onClick={handleLike}>
+                                            {isLiked ? "Don't like" : "Like"}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="#" onClick={handleComment}>
+                                            Add Comment
+                                        </a>
+                                    </li>
+  
+                                </ul>
+
                             </div>
                         </div>
                         <div className="imagen">
@@ -75,7 +106,7 @@ export const ProfileTab = ({ post }) => {
                             <h5 className="modal-title">Add comment</h5>
                             <button type="button" className="btn-close btn-warning" onClick={() => {
                                 setShowModal(false);
-                                setIsComment(false); 
+                                setIsComment(false);
                             }} aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
