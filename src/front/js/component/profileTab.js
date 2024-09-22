@@ -7,6 +7,7 @@ export const ProfileTab = ({ post }) => {
     const [isSaved, setIsSaved] = useState(false);
     const [isComment, setIsComment] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showShareModal, setShowShareModal] = useState(false); 
     const [comment, setComment] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -28,10 +29,13 @@ export const ProfileTab = ({ post }) => {
         setIsLiked(!isLiked);
     };
 
-      const handleComment = () => {
-    setIsComment(true);
-    setShowModal(true);
-  };
+    const handleComment = () => {
+        setIsComment(true);
+        setShowModal(true);
+    };
+    const handleShare = () => {
+        setShowShareModal(true); 
+    };
 
     return (
         <>
@@ -65,7 +69,7 @@ export const ProfileTab = ({ post }) => {
                                             Add Comment
                                         </a>
                                     </li>
-  
+
                                 </ul>
 
                             </div>
@@ -85,7 +89,11 @@ export const ProfileTab = ({ post }) => {
                                     style={{ cursor: "pointer", marginRight: "10px" }}
                                     onClick={() => { setIsComment(!isComment); setShowModal(true) }}
                                 />
-                                <i className="fa-regular fa-paper-plane me-2" style={{ cursor: "pointer" }}></i>
+                                <i
+                                    className={`fa-regular fa-paper-plane me-2 ${showShareModal ? 'text-warning' : ''}`}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={handleShare}
+                                />
                                 <i
                                     className={`${isSaved ? 'fa-solid fa-bookmark text-warning' : 'fa-regular fa-bookmark'}`}
                                     style={{ cursor: "pointer", marginLeft: "auto" }}
@@ -123,6 +131,20 @@ export const ProfileTab = ({ post }) => {
                                 </div>
                                 <button type="submit" className="btn btn-warning mt-2 float-end">Send</button>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`modal ${showShareModal ? 'show' : ''}`} style={{ display: showShareModal ? 'block' : 'none' }} tabIndex="-1" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Share Post</h5>
+                            <button type="button" className="btn-close btn-warning" onClick={() => setShowShareModal(false)} aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <p>Who are you kidding? You have no friends to share this post with.</p>
                         </div>
                     </div>
                 </div>
