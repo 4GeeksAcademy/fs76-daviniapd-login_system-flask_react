@@ -10,6 +10,7 @@ export const Signup = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [alert, setAlert] = useState(null);
+    const [showPassword, setShowPassword] = useState(false); 
 
     function handleSignup(e) {
         e.preventDefault();
@@ -50,8 +51,18 @@ export const Signup = () => {
                         </div>
 
                         <div className="inputBox">
-                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                            <input 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                type={showPassword ? "text" : "password"} 
+                                required="required" 
+                            />
                             <span>Password</span>
+                            <i 
+                                className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} 
+                                onClick={() => setShowPassword(!showPassword)} 
+                                style={{ cursor: "pointer", position: "absolute", right: "10px", top: "35px" }} 
+                            ></i>
                         </div>
 
                         <button type="submit" className="enter" onClick={handleSignup}>Enter</button>

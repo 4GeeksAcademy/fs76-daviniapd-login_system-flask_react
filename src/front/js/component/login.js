@@ -10,6 +10,7 @@ export const Login = () => {
     const [message, setMessage] = useState("");
     const [alert, setAlert] = useState(null);
     const formRef = useRef(null);
+    const [showPassword, setShowPassword] = useState(false); 
 
     function sendData(e) {
         e.preventDefault();
@@ -51,9 +52,20 @@ export const Login = () => {
                         </div>
 
                         <div className="inputBox">
-                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required="required" />
+                            <input 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                type={showPassword ? "text" : "password"} 
+                                required="required" 
+                            />
                             <span>Password</span>
+                            <i 
+                                className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} 
+                                onClick={() => setShowPassword(!showPassword)} 
+                                style={{ cursor: "pointer", position: "absolute", right: "10px", top: "35px" }} 
+                            ></i>
                         </div>
+
 
                         <button type="submit" className="enter">Enter</button>
 
