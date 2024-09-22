@@ -65,7 +65,8 @@ export const Signup = () => {
                             ></i>
                         </div>
 
-                        <button type="submit" className="enter" onClick={handleSignup}>Enter</button>
+                        <button type="submit" className="enter" onClick={handleSignup} style={{ marginBottom: '5px' }}>Enter</button>
+                        <p>Already have an account? <Link to="/login">Login</Link></p>
                     </div>
                 </form>
             }

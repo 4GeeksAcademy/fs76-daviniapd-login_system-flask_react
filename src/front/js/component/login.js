@@ -67,7 +67,8 @@ export const Login = () => {
                         </div>
 
 
-                        <button type="submit" className="enter">Enter</button>
+                        <button type="submit" className="enter" style={{ marginBottom: '5px' }}>Enter</button>
+                        <p>Is this your first time here? <Link to="/signup">Sign up</Link></p>
 
                     </div>
                 </form>
