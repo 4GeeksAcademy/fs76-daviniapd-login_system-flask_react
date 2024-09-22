@@ -9,11 +9,11 @@ import { Context } from "../store/appContext";
 export const Private = () => {
 	const { store, actions } = useContext(Context);
 
-	// const isAuthenticated = store.auth;
+	const isAuthenticated = store.auth;
 
-	// if (!isAuthenticated) {
-	// 	return <Navigate to="/" />;
-	// }
+	if (!isAuthenticated) {
+		return <Navigate to="/" />;
+	}
 
 	const posts = [
 		{
