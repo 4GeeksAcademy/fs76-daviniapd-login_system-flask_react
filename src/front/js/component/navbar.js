@@ -37,9 +37,3 @@ export const Navbar = () => {
 		</nav>
 	);
 };
-{/* <Link to="/signup"> 
-						<button className="btn btn-primary me-3">Signup</button>
-					</Link>
-					<Link to="/login"> 
-						<button className="btn btn-primary me-3">Login</button>
-					</Link> */}

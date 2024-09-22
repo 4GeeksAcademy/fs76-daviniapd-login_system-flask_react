@@ -47,7 +47,10 @@ export const Login = () => {
                             <i type="button" className="btn-close float-end ms-1" style={{fontSize: "10px"}} data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert(null)}></i>
                         </div>}
                         <div className="inputBox1">
-                            <input value={identifier} onChange={(e) => setIdentifier(e.target.value)} type="text" required="required" />
+                            <input value={identifier} 
+                            onChange={(e) => setIdentifier(e.target.value)} 
+                            type="text" 
+                            required="required" />
                             <span className="user">Username or Email</span>
                         </div>
 
