@@ -58,7 +58,7 @@ export const ProfileTab = ({ post }) => {
                                     <i className="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
 
-                                <ul className="dropdown-menu">
+                                <ul className="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a className="dropdown-item" href="#" onClick={handleLike}>
                                             {isLiked ? "Don't like" : "Like"}
