@@ -15,6 +15,7 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { ProfileTab } from "./component/profileTab";
+import { NotFound } from "./pages/notFound";
 
 //create your first component
 const Layout = () => {
@@ -36,7 +37,7 @@ const Layout = () => {
                         <Route element={<Private />} path="/private" />
                         <Route element={<ProfileTab />} path="/profile/:theid" />
                         <Route element={<Logout />} path="/logout" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<NotFound />} path="*" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
