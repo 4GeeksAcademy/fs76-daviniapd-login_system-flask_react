@@ -8,14 +8,16 @@ export const Signup = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [message, setMessage] = useState("");
     const [alert, setAlert] = useState(null);
     const [showPassword, setShowPassword] = useState(false); 
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     function handleSignup(e) {
         e.preventDefault();
         
-        if (!email || !username || !password) {
+        if (!email || !username || !password || !confirmPassword) {
             setMessage("Please, complete all fields.");
             return;
         }
@@ -23,6 +25,10 @@ export const Signup = () => {
             setMessage("The password must be at least 8 characters.");
             return;
         }
+        if (password !== confirmPassword) {
+            setMessage("Passwords don't match");
+            return;
+          }
         actions.checkUserExists(username, email).then(userExists => {
             if (userExists) {
                 setMessage("The username or email address is already registered.");
@@ -61,6 +67,20 @@ export const Signup = () => {
                             <i 
                                 className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} 
                                 onClick={() => setShowPassword(!showPassword)} 
+                                style={{ cursor: "pointer", position: "absolute", right: "10px", top: "35px" }} 
+                            ></i>
+                        </div>
+                        <div className="inputBox">
+                            <input 
+                                value={confirmPassword} 
+                                onChange={(e) => setConfirmPassword(e.target.value)} 
+                                type={showConfirmPassword ? "text" : "password"} 
+                                required="required" 
+                            />
+                            <span>Repeat Password</span>
+                            <i 
+                                className={`fa-solid ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} 
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
                                 style={{ cursor: "pointer", position: "absolute", right: "10px", top: "35px" }} 
                             ></i>
                         </div>
